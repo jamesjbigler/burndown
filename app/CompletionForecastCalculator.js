@@ -51,7 +51,7 @@ Ext.define('Burndown.CompletionForecastCalculator',
   {
   	this.setLoadedTasks(tasks);
 		
-		var iterationStart = new Date('2012-03-14T10:00:00.000');
+		var iterationStart = new Date(2012,2,14,10,0,0);
 		var minutesInIterationPerDeveloper = ((8 * 6) + 2) * 60;
 		var minutesInIteration = minutesInIterationPerDeveloper * 8;
 		var minutesSpentPerDeveloper = this._getMinutesSpent(iterationStart);
@@ -92,8 +92,8 @@ Ext.define('Burndown.CompletionForecastCalculator',
 		var minutesSpent = 0;
 	  for (var dayIndex = 1; dayIndex <= 14; dayIndex++)
 	  {
-	  	//Ext.Logger.warn('dayIndex = ' + dayIndex);
-	  	//Ext.Logger.warn('dayStart = ' + dayStart);
+	  	Ext.Logger.warn('dayIndex = ' + dayIndex);
+	  	Ext.Logger.warn('dayStart = ' + dayStart);
 	  	if (now < dayStart)
 	  	{
 	  		return minutesSpent;
@@ -106,13 +106,13 @@ Ext.define('Burndown.CompletionForecastCalculator',
 	  	
 	    var hourToEnd = (dayIndex === 13) ? 12 : 17;
 	    var dayEnd = new Date(dayStart.getFullYear(), dayStart.getMonth(), dayStart.getDate(), hourToEnd, 0, 0);
-	    //Ext.Logger.warn('dayEnd = ' + dayEnd);
+	    Ext.Logger.warn('dayEnd = ' + dayEnd);
 	    
 	    var hourOfDay = Ext.Date.add(dayStart, Ext.Date.HOUR, 1);
 	    while (hourOfDay < now && hourOfDay < dayEnd)
 	    {
 	    	hourOfDay = Ext.Date.add(hourOfDay, Ext.Date.HOUR, 1);
-	    	//Ext.Logger.warn('hourOfDay = ' + hourOfDay);
+	    	Ext.Logger.warn('hourOfDay = ' + hourOfDay);
 	    	minutesSpent += 60;
 	    }
 	    
