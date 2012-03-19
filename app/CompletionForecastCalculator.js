@@ -52,21 +52,22 @@ Ext.define('Burndown.CompletionForecastCalculator',
   	this.setLoadedTasks(tasks);
 		
 		var iterationStart = new Date(2012,2,14,10,0,0);
-		var minutesInIterationPerDeveloper = ((8 * 6) + 2) * 60;
-		var minutesInIteration = minutesInIterationPerDeveloper * 8;
+		var hoursInIteration = (8 * 6) + 2;
 		var minutesSpentPerDeveloper = this._getMinutesSpent(iterationStart);
 	  Ext.Logger.warn('minutesSpentPerDeveloper = ' + minutesSpentPerDeveloper);
-		var minutesSpent = minutesSpentPerDeveloper * 8;
-		var remainingEstimatedMinutes = this._getRemainingEstimatedMinutesForOpenTasks(iterationStart);
-		Ext.Logger.warn('minutesInIteration = ' + minutesInIteration);
-		Ext.Logger.warn('minutesSpent = ' + minutesSpent);
-    Ext.Logger.warn('remainingEstimatedMinutes = ' + remainingEstimatedMinutes);
+		var hoursSpent = minutesSpentPerDeveloper / 60;
+		var remainingEstimatedMinutesForTwoPeople = this._getRemainingEstimatedMinutesForOpenTasks(iterationStart);
+    var remainingEstimatedMinutesPerPair = remainingEstimatedMinutesForTwoPeople / 2;
+    var remainingEstimatedHours = (remainingEstimatedMinutesPerPair/4)/60;
+		Ext.Logger.warn('hoursInIteration = ' + hoursInIteration);
+		Ext.Logger.warn('hoursSpent = ' + hoursSpent);
+    Ext.Logger.warn('remainingEstimatedHours = ' + remainingEstimatedHours);
 
-		var minutesBeforeEndOfIteration = minutesInIteration - minutesSpent - remainingEstimatedMinutes;
+		var hoursBeforeEndOfIteration = hoursInIteration - hoursSpent - remainingEstimatedHours;
 		
-		Ext.Logger.warn('minutesBeforeEndOfIteration = ' + minutesBeforeEndOfIteration);
+		Ext.Logger.warn('hoursBeforeEndOfIteration = ' + hoursBeforeEndOfIteration);
 	
-		var hoursBeforeEndOfIteration = Math.ceil((minutesBeforeEndOfIteration/60)/8);
+	  hoursBeforeEndOfIteration = (hoursBeforeEndOfIteration > 0) ? Math.floor(hoursBeforeEndOfIteration) : Math.ceil(hoursBeforeEndOfIteration);
 		
 		Ext.Logger.warn('hoursBeforeEndOfIteration = ' + hoursBeforeEndOfIteration);
 		
@@ -128,7 +129,7 @@ Ext.define('Burndown.CompletionForecastCalculator',
 		Ext.each(allIssues, function(issue)
 		{
 			var minutes = issue.getRemainingEstimatedMinutesForOpenIssue();
-			//Ext.Logger.warn('remainingMinutesForIssue(' + issue.get('key') + ') = ' + minutes);
+			Ext.Logger.warn('remainingMinutesForIssue(' + issue.get('key') + ') = ' + minutes);
 			totalMinutes += minutes;
 		}, this);
 		

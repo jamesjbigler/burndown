@@ -66,7 +66,7 @@ Ext.define('Burndown.model.Issue',
   isOpen: function()
   {
   	var status = this.get('fields').status.value.name;
-  	return status !== "Closed";
+  	return status !== 'Closed' && status !== 'Resolved';
   },
 
   _getWorklogsStartingBefore: function(start)
